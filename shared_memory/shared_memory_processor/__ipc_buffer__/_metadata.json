@@ -1,0 +1,15 @@
+{
+    "session_id": "51d1ed3b-e83c-4283-a5db-a69c2c7d6335",
+    "segments": [
+        {
+            "varId": "fac557ee",
+            "source": "Python",
+            "filePath": "C:\\Users\\brand\\AppData\\Roaming\\MathWorks\\MATLAB Add-Ons\\Apps\\TESTINGENV - TheNanoporeAppLt\\matpy_shmem\\shared_memory_processor\\__ipc_buffer__\\fac557ee.shmem",
+            "dataType": "float64",
+            "dimensions": [
+                17142866
+            ],
+            "timestamp": "2025-04-23T19:46:53"
+        }
+    ]
+}
