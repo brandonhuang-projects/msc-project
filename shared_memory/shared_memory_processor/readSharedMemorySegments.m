@@ -81,6 +81,11 @@ function varargout = readSharedMemorySegments(bufferPath)
             data = jsondecode(data);
         end
 
+        % Convert 1xN to Nx1 if necessary
+        if isvector(data) && size(data,1) == 1 && size(data,2) > 1
+            data = data.'; % transpose to column vector
+        end
+
         % Store the data in the map using the variable name as the key.
         c = c + 1;
         dataList{c} = data;
