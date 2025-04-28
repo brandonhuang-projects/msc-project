@@ -51,7 +51,7 @@ def movmean_jit(A, k):
     return out
 
 
-def movmean(Count_2, Time_2, MovMean_Const):
+def movmean(Count_2, MovMean_Const):
     
     Base = movmean_jit(Count_2, MovMean_Const)
 
