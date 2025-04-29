@@ -7,6 +7,9 @@ from collections import defaultdict
 ## - - - - - Utilities - - - - - ##
 
 def list_to_np_array(func):
+    """
+    Decorator to automatically convert list inputs to numpy arrays.
+    """
     @wraps(func)
     def wrapper(*args, **kwargs):
         
@@ -20,10 +23,16 @@ def list_to_np_array(func):
 
 @list_to_np_array
 def convert_to_numpy(*args):
+    """
+    Convert input lists to numpy arrays.
+    """
     # To convert list to arrays
     return args
 
 def clean_float64_output(func):
+    """
+    Decorator to enforce float64 output formatting.
+    """
     @wraps(func)
     def wrapper(*args, **kwargs):
         # Call the original function
@@ -40,12 +49,21 @@ def clean_float64_output(func):
 ## - - - - - Helper Functions - - - - - ##
 
 def strfind(arr,subarray):
+    """
+    Find the starting index of a subarray inside an array.
+    """
     for i in range(len(arr) - len(subarray) + 1):
         if arr[i : i + len(subarray)] == subarray:
             return i
     return -1             
 
 def accumarray(ind, data, func = np.sum):
+    """
+     Replicate MATLAB's accumarray functionality.
+     
+     Assumes sorted and 1-based indexed 'ind'.
+     Supports sum, mean, max, first, last, or custom functions.
+     """
     # !! ASSUMES IND IS SORTED and 1-based indexed!!
     
     ind = np.array(ind) - 1 # Convert 1-based indexing to 0-based
@@ -138,6 +156,9 @@ def accumarray(ind, data, func = np.sum):
 
 @list_to_np_array
 def findTime(indx, s2, time):
+    """
+    Find the time and index of maximum value within an indexed segment.
+    """
 
 # !! Relies on 0-based indexing of indx
 # Replicates purpose, not data fom MATLAB original
@@ -155,6 +176,9 @@ def FindPeaks_V2(CountBase, PoisLamda, thresh,
                  time, T_res, FullWidthHM, WidthLimit,
                  CurrentLimit, FileCondition, Buff):
     
+    """
+    Detect and filter peaks from nanopore signals with optional full-width half-max filtering.
+    """
     # Call PeaksBeta_V2
     TiMaxBurst, PkMaxBurst, MeanBurst, TiLow, TiHigh, Area, TEST, PeakIndex = \
         PeaksBeta_V2(CountBase, PoisLamda, thresh, time, Buff)
@@ -280,7 +304,9 @@ def FindPeaks_V2(CountBase, PoisLamda, thresh,
 
 @clean_float64_output
 def PeaksBeta_V2(Count, PoisLamda, thresh, time_raw, Buff):
-
+    """
+    Initial peak identification and segmentation based on thresholding.
+    """
     s = np.array(Count)
     #s += np.random.rand(len(s)) * 1e-9
     Data = s
@@ -369,7 +395,9 @@ def PeaksBeta_V2(Count, PoisLamda, thresh, time_raw, Buff):
 
 def peakfinder(CountBase, PoisLamda, thresh, time, T_res, FullWidthHM,
                WidthLimit, CurrentLimit, FileCondition, Buff):
-    
+    """
+    Wrapper function for full peak detection pipeline.
+    """
     TiMaxBurst, PkMaxBurst, MeanBurst, TiLow, TiHigh, Area, Event_all, PeakIndex = \
         FindPeaks_V2(CountBase, PoisLamda, thresh, time, T_res, FullWidthHM, 
                      WidthLimit, CurrentLimit, FileCondition, Buff)

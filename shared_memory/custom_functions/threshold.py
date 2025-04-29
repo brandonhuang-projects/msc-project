@@ -8,6 +8,17 @@ from numba import njit
 
 @njit
 def fast_histogram(data, bins, step):
+    """
+    Compute a fast histogram matching MATLAB histc behavior.
+    
+    Parameters:
+    data (array): Input data points.
+    bins (array): Bin edges.
+    step (float): Bin width.
+    
+    Returns:
+    array: Histogram counts.
+    """
     hist = np.zeros(len(bins), dtype=np.int64) # No len(bins)-1 since MATLAB includes
     
     for value in data:
@@ -19,9 +30,26 @@ def fast_histogram(data, bins, step):
 
 # Poission PMF
 def Pois(u, x):
+    """Poisson probability mass function."""
     return (u**x) * np.exp(-u) / gamma(x + 1)
 
 def threshold(CountBase, STD, SO, ThrStep):
+    """
+    Perform histogram-based thresholding with Poisson fitting.
+    
+    Parameters:
+    CountBase (array): Baseline-corrected signal.
+    STD (float): Standard deviation scaling factor.
+    SO (float): Scaling offset.
+    ThrStep (dict): Threshold override configuration.
+    
+    Returns:
+    thresh (float): Final threshold value.
+    PoisLamda (float): Scaled Poisson lambda value.
+    StepVec (array): Step vector used for binning.
+    Hist (array): Normalized histogram.
+    PoisFit (array): Normalized Poisson fit.
+    """
     
     # Calculate the first difference
     Df = np.diff(CountBase)
